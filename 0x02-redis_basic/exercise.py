@@ -24,7 +24,7 @@ class Cache:
         a method that takes a data
         argument and returns a string
         """
-        key = str(uuid.uuid1())
+        key = str(uuid.uuid4())
 
         self._redis.set(key, data)
 
