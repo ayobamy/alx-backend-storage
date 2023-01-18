@@ -25,7 +25,7 @@ class Cache:
         argument and returns a string
         """
         r = redis.Redis()
-        key = str(uuid.uuid4())
+        key = str(uuid.uuid1())
 
         r.set(key, data)
 
