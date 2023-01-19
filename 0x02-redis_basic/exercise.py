@@ -4,14 +4,14 @@ Writing strings to Redis
 """
 import redis
 import uuid
-from typing import Any
+from typing import Union
 
 
 class Cache:
     """
     redis cache
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """
         store an instance of the
         redis client
@@ -19,7 +19,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self, data: Any) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         a method that takes a data
         argument and returns a string
