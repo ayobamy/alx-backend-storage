@@ -22,6 +22,7 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+
 def call_history(method: Callable) -> Callable:
     """
     function call history
@@ -41,9 +42,10 @@ def call_history(method: Callable) -> Callable:
         return output
     return wrapper
 
+
 def replay(method: Callable) -> None:
     """
-    function to display the history of 
+    function to display the history of
     calls of a particular function
     """
     key = method.__qualname__
@@ -64,6 +66,7 @@ def replay(method: Callable) -> None:
 
         print("{}(*{}) -> {}".format(key, i, o))
 
+
 class Cache:
     """
     redis cache
@@ -76,7 +79,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    @call_history 
+    @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
