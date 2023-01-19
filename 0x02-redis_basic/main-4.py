@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Main file for task 3
+Main file for task 4
 """
 import redis
 
 Cache = __import__('exercise').Cache
+replay = __import__('exercise').replay
 
 cache = Cache()
 
