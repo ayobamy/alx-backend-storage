@@ -14,7 +14,7 @@ _redis = redis.Redis()
 def count_request(method: Callable) -> Callable:
     """
     track how many times a particular
-    URL was accessed in the key 
+    URL was accessed in the key
     """
 
     @wraps(method)
