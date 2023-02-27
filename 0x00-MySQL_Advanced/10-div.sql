@@ -1,4 +1,4 @@
--- scripts that creates a function SafeDiv
+-- script that creates a function SafeDiv
 -- The function SafeDiv takes 2 arguments:
 -- a (INT), b (INT)
 -- Returns a / b or 0 if b == 0
