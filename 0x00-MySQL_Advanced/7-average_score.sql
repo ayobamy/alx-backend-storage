@@ -1,4 +1,4 @@
--- SQL script that creates a stored procedure ComputeAverageScoreForUser
+-- script that creates a stored procedure ComputeAverageScoreForUser
 -- computes and store the average score for a student
 -- An average score can be a decimal
 -- Procedure ComputeAverageScoreForUser is taking 1 input:
