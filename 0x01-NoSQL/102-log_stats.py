@@ -1,26 +1,50 @@
 #!/usr/bin/env python3
-""" Log stats module """
+"""
+stats about Nginx logs
+"""
 from pymongo import MongoClient
+list_all = __import__('8-all').list_all
 
 
-def log_stats(mongo_collection):
-    """
-    this function provides some stats about Nginx logs stored in MongoDB
-    """
-    total_logs = mongo_collection.count_documents({})
-    print("{} logs".format(total_logs))
-    print("Methods:")
+if __name__ == '__main__':
+    client = MongoClient('mongodb://127.0.0.1:27017')
+
+    nginx_collection = client.logs.nginx
+
+    print("{} logs".format(nginx_collection.count_documents({})))
+
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    print("Methods:")
     for method in methods:
-        documents = mongo_collection.count_documents({"method": method})
-        print("\tmethod {}: {}".format(method, documents))
-    status = mongo_collection.count_documents({"method": "GET",
-                                              "path": "/status"})
-    print("{} status check".format(status))
+        count = nginx_collection.count_documents({"method": method})
+        print("\tmethod {}: {}".format(method, count))
 
 
-if __name__ == "__main__":
-    with MongoClient() as client:
-        db = client.logs
-        collection = db.nginx
-        log_stats(collection)
+    count = nginx_collection.count_documents(
+        {"method": "GET", "path": "/status"}
+    )
+    print("{} status check".format(count))
+
+
+    top10_ips = nginx_collection.aggregate([
+        {"$group": {
+            "_id": "$ip",
+            "count": {"$sum": 1}
+        }},
+
+        {"$sort": {"count": -1}},
+        {"$limit": 10},
+
+        {"$project": {
+            "_id": 0,
+            "ip": "$_id",
+            "count": 1
+        }}
+    ])
+
+    print("IPs:")
+
+    for top_ip in top10_ips:
+        ip = top_ip.get('ip')
+        count = top_ip.get('count')
+        print("\t{}: {}".format(ip, count))
